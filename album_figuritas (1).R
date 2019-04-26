@@ -1,0 +1,166 @@
+album <- c(FALSE, FALSE, TRUE, TRUE, FALSE, FALSE) # es un ejemplo de un album de tam_album = 6 que tiene pegadas las figuritas 3 y 4
+album[4]
+album[2]
+
+## Si quiero pegar la figurita "2"
+album[2] = TRUE
+album
+
+
+# Que pasa si vuelvo a pegar la figu 2? 
+album[2] = TRUE
+album
+#Respuesta: queda igual. Se entenderá que cuando se dice que se pega una figu, la figu queda pegada en el album, 
+#independientemente de si ya estaba pegada o no.
+
+
+generar_sobre = function(tam_album, tam_sobre){ 
+  sobre <- 1:tam_sobre
+  for (figu in sobre){ 
+    #a cada posicion del sobre, le digo que numero de figurita va a tener
+    sobre[figu]<-sample(1:tam_album, 1)
+    #sample toma una numero aleatorio entre 1 el tamaño del album que 
+    #representa a la figurita y la mete en el sobre
+  }
+  return(sobre)
+}
+
+pertenece<-function(n, v){
+  for (i in v) {
+    if (i ==n) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
+
+generar_sobre_sinRep <- function(tam_album, tam_sobre){ 
+ 
+  return(sample(1:tam_album, tam_sobre))
+}
+
+pegar_sobre = function(album,  sobre){
+
+  for (figu in sobre) { #revisa todas las figuritas del sobre, y las pega en el álbum
+    album[figu]<-TRUE
+  }
+  return(album)
+}
+
+album_lleno = function(album){
+  for (elem in album){
+    if (elem == FALSE) return(FALSE) #si descubre que falta una figurita, ya devuelve FALSE
+  }
+  #si recorre todo el album y estaban todas pegadas devuelve TRUE
+  return(TRUE)
+}
+
+cuantas_figuritas = function(tam_album, tam_sobre){
+  #despues de ejecutar esta funcion con los tamaño de album=6 sobre de tam=1 tres veces, los resultados fueron 16, 17, 7 
+ al<- 1:tam_album
+  for(i in 1:tam_album){
+    al[i]<-FALSE
+  }
+  sobresusados<-0
+  while(album_lleno(al) ==FALSE){
+    al<-pegar_sobre(al, generar_sobre(tam_album, tam_sobre))
+    sobresusados = sobresusados+1
+  }
+  return(sobresusados)
+}
+
+cuantas_figuritas_sinRep = function(tam_album, tam_sobre){
+  #despues de ejecutar esta funcion tres veces, los resultados fueron 16, 17, 7
+  al<- 1:tam_album
+  for(i in 1:tam_album){
+    al[i]<-FALSE
+  }
+  sobresusados<-0
+  while(album_lleno(al) ==FALSE){
+    al<-pegar_sobre(al, generar_sobre_sinRep(tam_album, tam_sobre))
+    sobresusados = sobresusados+1
+  }
+  return(sobresusados)
+}
+
+
+ llenadoRusia<- function(n){
+  res<- 1:n
+  for (i in 1:n) {
+   res[i]<-(cuantas_figuritas(670, 5))
+ }
+return(res)
+ }
+ 
+ llenadoRusia_sinRep<- function(n){
+   res<- 1:n
+   for (i in 1:n) {
+     res[i]<-(cuantas_figuritas_sinRep(670, 5))
+   }
+   return(res)
+ }
+ 
+ proba800 <-function(n){
+   #se fija cuantas veces se necesitaron 800 o menos paquetes para llenar el album, y a ese número
+   #lo divide por la cantidad de repeticiones (Montecarlo). Despues de ejecutar esta funcion varias veces
+   #descubrimos que P(canttidad de sobres usados <= 800) es 0.18 (entre 0.161 y 0.2 aprox)                      
+   cant800<-0
+   for (i in 1:n) {
+     i<-(cuantas_figuritas(670, 5))
+     if (i<=800) cant800 <-cant800+1
+   }
+   return(cant800/n)
+ }
+ 
+ proba800_sinRep <-function(n){
+   #se fija cuantas veces se necesitaron 800 o menos paquetes para llenar el album, y a ese número
+   #lo divide por la cantidad de repeticiones (Montecarlo). Despues de ejecutar esta funcion varias veces
+   #descubrimos que P(canttidad de sobres usados <= 800) es 0.18 (entre 0.161 y 0.2 aprox)                      
+   i<-0
+   cant800<-0
+   for (i in 1:n) {
+     i<-(cuantas_figuritas_sinRep(670, 5))
+     if (i<=800) cant800 <-cant800+1
+   }
+   return(cant800/n)
+ }
+
+ cuantos_sobres <- function(cant_sobres){
+   al<- 1:670
+   llenos<-0
+   for (cantrep in 1:1000){
+     for(i in 1:670){ #creo album vacio
+       al[i]<-FALSE
+     }
+     for(i in 1:cant_sobres){
+       al<-pegar_sobre(al, generar_sobre(670, 5))
+     }
+     if ( album_lleno(al) == TRUE ) llenos = llenos + 1
+   
+   }
+   return(llenos/1000)
+ }
+ 
+ #Despues de realizar varias experimentaciones, llegamos a la conclusion de que para completar el album
+ #con proba mayor o igual a 0.9, se necesitan como minimo 1179 sobres de figuritas.
+ 
+ 
+ cuantos_sobres_sin_repetidos <- function(cant_sobres){
+   al<- 1:670
+   llenos<-0
+   for (cantrep in 1:1000){
+     for(i in 1:670){ #creo album vacio
+       al[i]<-FALSE
+     }
+     for(i in 1:cant_sobres){
+       al<-pegar_sobre(al, generar_sobre_sinRep(670, 5))
+     }
+     if ( album_lleno(al) == TRUE ) llenos = llenos + 1
+     
+   }
+   return(llenos/1000)
+ }
+   
+
+   
+   
