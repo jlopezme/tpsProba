@@ -121,7 +121,7 @@ nRep = 1000
 menos_de_800_sobres = 0
 muestras = rep(0, nRep)
 for(i in 1:nRep){
-  muestras[i] = cuantas_figuritas(cant_figuritas_rusia, cant_sobre_rusia)
+  muestras[i] = cuantas_figuritas(670, 5)
   if(muestras[i] <= 800){
     menos_de_800_sobres = menos_de_800_sobres + 1
   }
