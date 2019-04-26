@@ -34,14 +34,11 @@ album_lleno = function(album){
 
 ## PASO 3 ##
 
-cant_figuritas_3 = 6
-cant_sobre_3 = 3
-
-generar_sobre = function(cant_figuritas_3, cant_sobre_3){ 
-  sobre <- 1:cant_sobre_3
+generar_sobre = function(cant_figuritas, cant_sobre){ 
+  sobre <- 1:cant_sobre
   for (figu in sobre){ 
     #a cada posicion del sobre, le digo que numero de figurita va a tener
-    sobre[figu]<-sample(1:cant_figuritas_3, 1)
+    sobre[figu]<-sample(1:cant_figuritas, 1)
     #sample toma una numero aleatorio entre 1 el tamaño del album que 
     #representa a la figurita y la mete en el sobre
   }
@@ -52,6 +49,15 @@ generar_sobre_sinRep <- function(cant_figuritas_3, cant_sobre_3){
  
   return(sample(1:cant_figuritas, cant_sobre))
 }
+
+album_3 = rep(FALSE, 6)
+sobre = generar_sobre(6, 3)
+sobre
+for(i in 1:3){
+  album[sobre[i]] = TRUE 
+
+}
+album
 
 ## PASO 4 ##
 
@@ -110,7 +116,19 @@ cuantas_figuritas(6,1)
 cuantas_figuritas(6,1)
 
 ## PASO 7 ##
- 
+
+nRep = 1000
+menos_de_800_sobres = 0
+muestras = rep(0, nRep)
+for(i in 1:nRep){
+  muestras[i] = cuantas_figuritas(cant_figuritas_rusia, cant_sobre_rusia)
+  if(muestras[i] <= 800){
+    menos_de_800_sobres = menos_de_800_sobres + 1
+  }
+}
+
+############
+
  proba800 <-function(n){
    #se fija cuantas veces se necesitaron 800 o menos paquetes para llenar el album, y a ese número
    #lo divide por la cantidad de repeticiones (Montecarlo). Despues de ejecutar esta funcion varias veces
