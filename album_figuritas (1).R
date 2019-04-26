@@ -1,4 +1,4 @@
-album <- c(FALSE, FALSE, TRUE, TRUE, FALSE, FALSE) # es un ejemplo de un album de tam_album = 6 que tiene pegadas las figuritas 3 y 4
+album <- c(FALSE, FALSE, TRUE, TRUE, FALSE, FALSE) # es un ejemplo de un album de cant_figuritas = 6 que tiene pegadas las figuritas 3 y 4
 album[4]
 album[2]
 
@@ -13,12 +13,32 @@ album
 #Respuesta: queda igual. Se entenderá que cuando se dice que se pega una figu, la figu queda pegada en el album, 
 #independientemente de si ya estaba pegada o no.
 
+## PASO 1 ##
 
-generar_sobre = function(tam_album, tam_sobre){ 
-  sobre <- 1:tam_sobre
+cant_figuritas_1 = 6
+
+album = rep(FALSE, cant_figuritas_1)
+figurita_sorteada = sample(1:6,1,replace = TRUE)
+album[figurita_sorteada[1]] = TRUE 
+album
+
+## PASO 2 ##
+
+album_lleno = function(album){
+  for (elem in album){
+    if (elem == FALSE) return(FALSE) #si descubre que falta una figurita, ya devuelve FALSE
+  }
+  #si recorre todo el album y estaban todas pegadas devuelve TRUE
+  return(TRUE)
+}
+
+## PASO 3 ##
+
+generar_sobre = function(cant_figuritas, cant_sobre){ 
+  sobre <- 1:cant_sobre
   for (figu in sobre){ 
     #a cada posicion del sobre, le digo que numero de figurita va a tener
-    sobre[figu]<-sample(1:tam_album, 1)
+    sobre[figu]<-sample(1:cant_figuritas, 1)
     #sample toma una numero aleatorio entre 1 el tamaño del album que 
     #representa a la figurita y la mete en el sobre
   }
@@ -34,9 +54,9 @@ pertenece<-function(n, v){
   return(FALSE)
 }
 
-generar_sobre_sinRep <- function(tam_album, tam_sobre){ 
+generar_sobre_sinRep <- function(cant_figuritas, cant_sobre){ 
  
-  return(sample(1:tam_album, tam_sobre))
+  return(sample(1:cant_figuritas, cant_sobre))
 }
 
 pegar_sobre = function(album,  sobre){
@@ -47,37 +67,29 @@ pegar_sobre = function(album,  sobre){
   return(album)
 }
 
-album_lleno = function(album){
-  for (elem in album){
-    if (elem == FALSE) return(FALSE) #si descubre que falta una figurita, ya devuelve FALSE
-  }
-  #si recorre todo el album y estaban todas pegadas devuelve TRUE
-  return(TRUE)
-}
-
-cuantas_figuritas = function(tam_album, tam_sobre){
+cuantas_figuritas = function(cant_figuritas, cant_sobre){
   #despues de ejecutar esta funcion con los tamaño de album=6 sobre de tam=1 tres veces, los resultados fueron 16, 17, 7 
- al<- 1:tam_album
-  for(i in 1:tam_album){
+ al<- 1:cant_figuritas
+  for(i in 1:cant_figuritas){
     al[i]<-FALSE
   }
   sobresusados<-0
   while(album_lleno(al) ==FALSE){
-    al<-pegar_sobre(al, generar_sobre(tam_album, tam_sobre))
+    al<-pegar_sobre(al, generar_sobre(cant_figuritas, cant_sobre))
     sobresusados = sobresusados+1
   }
   return(sobresusados)
 }
 
-cuantas_figuritas_sinRep = function(tam_album, tam_sobre){
+cuantas_figuritas_sinRep = function(cant_figuritas, cant_sobre){
   #despues de ejecutar esta funcion tres veces, los resultados fueron 16, 17, 7
-  al<- 1:tam_album
-  for(i in 1:tam_album){
+  al<- 1:cant_figuritas
+  for(i in 1:cant_figuritas){
     al[i]<-FALSE
   }
   sobresusados<-0
   while(album_lleno(al) ==FALSE){
-    al<-pegar_sobre(al, generar_sobre_sinRep(tam_album, tam_sobre))
+    al<-pegar_sobre(al, generar_sobre_sinRep(cant_figuritas, cant_sobre))
     sobresusados = sobresusados+1
   }
   return(sobresusados)
