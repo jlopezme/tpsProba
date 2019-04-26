@@ -34,30 +34,26 @@ album_lleno = function(album){
 
 ## PASO 3 ##
 
-generar_sobre = function(cant_figuritas, cant_sobre){ 
-  sobre <- 1:cant_sobre
+cant_figuritas_3 = 6
+cant_sobre_3 = 3
+
+generar_sobre = function(cant_figuritas_3, cant_sobre_3){ 
+  sobre <- 1:cant_sobre_3
   for (figu in sobre){ 
     #a cada posicion del sobre, le digo que numero de figurita va a tener
-    sobre[figu]<-sample(1:cant_figuritas, 1)
+    sobre[figu]<-sample(1:cant_figuritas_3, 1)
     #sample toma una numero aleatorio entre 1 el tamaño del album que 
     #representa a la figurita y la mete en el sobre
   }
   return(sobre)
 }
 
-pertenece<-function(n, v){
-  for (i in v) {
-    if (i ==n) {
-      return(TRUE)
-    }
-  }
-  return(FALSE)
-}
-
-generar_sobre_sinRep <- function(cant_figuritas, cant_sobre){ 
+generar_sobre_sinRep <- function(cant_figuritas_3, cant_sobre_3){ 
  
   return(sample(1:cant_figuritas, cant_sobre))
 }
+
+## PASO 4 ##
 
 pegar_sobre = function(album,  sobre){
 
@@ -66,6 +62,18 @@ pegar_sobre = function(album,  sobre){
   }
   return(album)
 }
+
+album_vacio = rep(FALSE,6)
+sobre1 = generar_sobre(6,3)
+album_vacio = pegar_sobre(album_vacio,sobre1)
+sobre1
+album_vacio
+sobre2 = generar_sobre(6,3)
+album_vacio = pegar_sobre(album_vacio,sobre2)
+sobre2
+album_vacio
+
+## PASO 5 ##
 
 cuantas_figuritas = function(cant_figuritas, cant_sobre){
   #despues de ejecutar esta funcion con los tamaño de album=6 sobre de tam=1 tres veces, los resultados fueron 16, 17, 7 
@@ -95,22 +103,13 @@ cuantas_figuritas_sinRep = function(cant_figuritas, cant_sobre){
   return(sobresusados)
 }
 
+## PASO 6 ##
 
- llenadoRusia<- function(n){
-  res<- 1:n
-  for (i in 1:n) {
-   res[i]<-(cuantas_figuritas(670, 5))
- }
-return(res)
- }
- 
- llenadoRusia_sinRep<- function(n){
-   res<- 1:n
-   for (i in 1:n) {
-     res[i]<-(cuantas_figuritas_sinRep(670, 5))
-   }
-   return(res)
- }
+cuantas_figuritas(6,1)
+cuantas_figuritas(6,1)
+cuantas_figuritas(6,1)
+
+## PASO 7 ##
  
  proba800 <-function(n){
    #se fija cuantas veces se necesitaron 800 o menos paquetes para llenar el album, y a ese número
@@ -174,5 +173,13 @@ return(res)
  }
    
 
-   
-   
+## AUXILIARES ##
+
+pertenece<-function(n, v){
+  for (i in v) {
+    if (i ==n) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
