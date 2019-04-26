@@ -129,30 +129,10 @@ for(i in 1:nRep){
 
 ############
 
- proba800 <-function(n){
-   #se fija cuantas veces se necesitaron 800 o menos paquetes para llenar el album, y a ese número
-   #lo divide por la cantidad de repeticiones (Montecarlo). Despues de ejecutar esta funcion varias veces
-   #descubrimos que P(canttidad de sobres usados <= 800) es 0.18 (entre 0.161 y 0.2 aprox)                      
-   cant800<-0
-   for (i in 1:n) {
-     i<-(cuantas_figuritas(670, 5))
-     if (i<=800) cant800 <-cant800+1
-   }
-   return(cant800/n)
- }
- 
- proba800_sinRep <-function(n){
-   #se fija cuantas veces se necesitaron 800 o menos paquetes para llenar el album, y a ese número
-   #lo divide por la cantidad de repeticiones (Montecarlo). Despues de ejecutar esta funcion varias veces
-   #descubrimos que P(canttidad de sobres usados <= 800) es 0.18 (entre 0.161 y 0.2 aprox)                      
-   i<-0
-   cant800<-0
-   for (i in 1:n) {
-     i<-(cuantas_figuritas_sinRep(670, 5))
-     if (i<=800) cant800 <-cant800+1
-   }
-   return(cant800/n)
- }
+# Pregunta 1: Prob de llenarlo con menos de 800 sobres 
+menos_de_800_sobres / nRep
+
+# Pregunta 2: #sobres para completar con proba 0.9
 
  cuantos_sobres <- function(cant_sobres){
    al<- 1:670
@@ -172,8 +152,36 @@ for(i in 1:nRep){
  
  #Despues de realizar varias experimentaciones, llegamos a la conclusion de que para completar el album
  #con proba mayor o igual a 0.9, se necesitan como minimo 1179 sobres de figuritas.
- 
- 
+
+# Pregunta 3: esperanza
+mean(muestras)
+
+#la funcion mean retorna la media del vector con las muestras, pero como el espacio muestral de los sobres es equiprobable
+#la media es igual a la esperanza, que es lo que nos estan pidiendo
+
+# Pregunta 4: desvio estandar
+sd(muestras)
+
+#la funcion sd que significa standard deviation cumple con lo pedido
+
+## PASO 8 ##
+
+menos_de_800_sobres_sinRep = 0
+muestras_sinRep = rep(0, nRep)
+for(i in 1:nRep){
+  muestras_sinRep[i] = cuantas_figuritas_sinRep(670, 5)
+  if(muestras_sinRep[i] <= 800){
+    menos_de_800_sobres_sinRep = menos_de_800_sobres_sinRep + 1
+  }
+}
+
+############
+
+# Pregunta 1: Prob de llenarlo con menos de 800 sobres 
+menos_de_800_sobres_sinRep / nRep
+
+# Pregunta 2: #sobres para completar con proba 0.9
+
  cuantos_sobres_sin_repetidos <- function(cant_sobres){
    al<- 1:670
    llenos<-0
@@ -189,15 +197,10 @@ for(i in 1:nRep){
    }
    return(llenos/1000)
  }
-   
 
-## AUXILIARES ##
+# Pregunta 3: esperanza
+mean(muestras_sinRep)
 
-pertenece<-function(n, v){
-  for (i in v) {
-    if (i ==n) {
-      return(TRUE)
-    }
-  }
-  return(FALSE)
-}
+# Pregunta 4: desvio estandar
+sd(muestras_sinRep)
+
